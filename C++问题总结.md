@@ -83,12 +83,134 @@ int main() {
     return 0;   // 程序结束
 
 }
+```
 
+#### 4.scanf格式化输入有逗号问题
 
-
+```c++
+/*
+ 写一个程序，从键盘上接收两个整数，输出这两个整数中值较大的一个
+ */
+#include <stdio.h>
+int main () {
+    int a = 0;
+    int b = 0;
+    printf("请输入两个整数：");
+    fflush(stdout);
+    scanf("%d , %d", &a, &b);     // 输入的时候也要包含逗号，如： 44,66  若输入44 66 程序输出有问题。逗号 , 匹配输入中的逗号。若输入中没有逗号，则44 66 会赋给a变量，则取整数部分44
+    if (a > b) {
+        printf("%d", a);
+    } else {
+        printf("%d", b);
+    }
+}
 
 
 ```
+
+#### 5.定义动态数组时的问题
+
+```c++
+#include <stdio.h>
+int main() {
+    char pwd[] = "123456789";
+    char userPwd[];     // 语法错误-----除非初始化，否则定义数组一定要加常量表示长度
+    char userPwd[20];
+}
+
+```
+
+#### 6scanf 结合while循环将整数类型的变量用字符输入问题
+
+```c++
+#include <stdio.h>
+int main() {
+    int pwd = 123456789;
+    int userPwd = 0;
+    while (1) {
+        printf("请输入密码：");
+        fflush(stdout);
+        /*
+        当输入字符asd时， scanf 试图将非整数输入（如 "asd"）转换为整数时，会导致输入失败，scanf 不会读取非整数部分，而将输入保留在输入缓冲区中。由于输入缓冲区中仍然包含非整数字符，下一次循环 scanf 仍然无法成功读取整数，导致无限循环。
+        */
+        scanf("%d", &userPwd);      // 从输入缓冲区读取
+        if (pwd == userPwd) {
+            printf("密码输入正确");
+            break;
+        } else {
+            printf("密码输入错误\n");
+        }
+    }
+    
+}
+
+// 上面输入asd导致无限循环问题
+```
+
+#### 7.两字符串比较问题
+
+```c++
+/*
+ 写一个程序，模仿输入密码的操作，密码正确则输出“输入正确，欢迎使用”，密码错误，则输出“密码错误，即将退出程序”
+ * */
+
+// 错误写法：
+#include <stdio.h>
+int main() {
+    char pwd[] = "123456789";
+    char userPwd[10];
+    printf("请输入密码：");
+    fflush(stdout);
+    scanf("%s", userPwd);
+    if (pwd == userPwd) {             // 字符串比较不能使用 == 运算符，因为它会比较字符串的地址而不是字符串的内容。要比较两个字符串的内容，应该使用 strcmp 函数。
+        printf("输入正确，欢迎使用");
+
+    } else {
+        printf("密码输入错误，即将退出程序");
+    }
+
+}
+
+// 正确写法：
+#include <stdio.h>
+#include <string.h>
+int main() {
+    char pwd[] = "123456789";
+    char userPwd[10];
+    printf("请输入密码：");
+    fflush(stdout);
+    scanf("%s", userPwd);
+    if (strcmp(pwd, userPwd) == 0 ) {    // 0 表示相等
+        printf("输入正确，欢迎使用");
+
+    } else {
+        printf("密码输入错误，即将退出程序");
+    }
+}
+```
+
+#### 8.字符串初始化定义问题
+
+```c++
+int main() {
+    int a = 0;
+    int b = 0;
+    char str[] =  "";
+    char str1 =  ' ';
+    // 错误写法：
+    char str1 = '';
+    
+}
+
+```
+
+
+
+
+
+
+
+
 
 
 
